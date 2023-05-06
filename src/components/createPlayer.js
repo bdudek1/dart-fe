@@ -61,7 +61,7 @@ const CreatePlayer = () => {
         try {
             const response = await fetch(playerUrl, requestOptions);
             const data = await response.json();
-            console.log(data);
+
             setResponseCode(data.status ? data.status : 201);
         } catch (error) {
             setResponseCode(503);
