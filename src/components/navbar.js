@@ -13,7 +13,7 @@ import '../App.css';
 
 const NavBar = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
         <CssBaseline />
         <Toolbar>
             <Link to="/" className="logo">

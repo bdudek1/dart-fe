@@ -119,6 +119,7 @@ const CreatePlayer = () => {
                     fullWidth
                     value={name}
                     className="text-input"
+                    size="small"
                     error={usernameError !== ""}
                     helperText={usernameError}
                 />
@@ -132,6 +133,7 @@ const CreatePlayer = () => {
                     fullWidth
                     value={password}
                     className="text-input"
+                    size="small"
                     error={passwordError !== ""}
                     helperText={passwordError}
                 />
@@ -145,6 +147,7 @@ const CreatePlayer = () => {
                     fullWidth
                     value={confirmPassword}
                     className="text-input"
+                    size="small"
                     error={confirmPasswordError !== ""}
                     helperText={confirmPasswordError}
                 />
