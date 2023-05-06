@@ -32,6 +32,9 @@ const NavBar = () => {
                 <NavLink to="/players-statistics" className="link">
                     Players Statistics
                 </NavLink>
+                <NavLink to="/create-player" className="link">
+                    Create Player
+                </NavLink>
             </div>
         </Toolbar>
     </AppBar>

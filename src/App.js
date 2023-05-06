@@ -6,16 +6,18 @@ import CreateGame from "./components/createGame";
 import Players from "./components/players";
 import Home from "./components/home";
 import PlayersStatistics from "./components/playersStatistics";
+import CreatePlayer from './components/createPlayer';
 
 const App = () => { 
   return (
     <Router>
       <NavBar />
       <Routes>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/create-game" component={CreateGame} />
-        <Route exact path="/players" component={Players} />
-        <Route exact path="/players-statistics" component={PlayersStatistics} />
+        <Route path="/" element={<Home />} />
+        <Route path="/create-game" element={<CreateGame />} />
+        <Route path="/players" element={<Players />} />
+        <Route path="/players-statistics" element={<PlayersStatistics />} />
+        <Route path="/create-player" element={<CreatePlayer />} />
       </Routes>
     </Router>
   );
