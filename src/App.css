@@ -30,7 +30,7 @@
   transition-duration: 400ms;
 }
 
-.create-player-form, .create-game-form {
+.create-player-form, .create-game-form, .game-container {
   text-align: center;
   border: 2px solid #333;
   border-radius: 10px;
@@ -39,14 +39,19 @@
   margin-top: 10%;
 }
 
-.create-player-form:hover, .create-game-form:hover {
+.create-player-form:hover, .create-game-form:hover, .game-container:hover {
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.5);
   transition-duration: 200ms;
 }
 
 .create-game-form {
-  max-width: 75%;
+  max-width: 60%;
   padding: 15px;
+}
+
+.game-container {
+  max-width: 80%;
+  padding: 20px;
 }
 
 .text-input {
@@ -81,4 +86,21 @@
 .players-table-container {
   margin-top: 5%;
   padding: 5%;
+}
+
+.shot-button-group {
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.player-scores {
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.possible-endings {
+  margin-top: 15px;
+  padding: 3px;
+  overflow: auto;
+  max-height: 200px;
 }

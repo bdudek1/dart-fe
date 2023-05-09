@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { 
   List,
   ListItem,
@@ -17,6 +18,8 @@ const CreateGame = () => {
   const [userName, setUserName] = useState('');
   const [usernameError, setUsernameError] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const playerUrl = process.env.REACT_APP_PLAYER_URL;
   const gameUrl = process.env.REACT_APP_GAME_URL;
@@ -143,8 +146,7 @@ const handleCreateGameRequest = async () => {
   switch (data.status) {
     case 201:
     case undefined:
-      //TODO:: redirect to game url
-      console.log("redirect to game url...");
+      navigate(`/game/${data.id}`);
       return;
     default:
       setAlertMessage("Could not create game. Please try again.");

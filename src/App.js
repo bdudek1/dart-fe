@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/navbar";
 import CreateGame from "./components/createGame";
+import Game from "./components/game/game";
 import Players from "./components/players";
 import Home from "./components/home";
 import PlayersStatistics from "./components/playersStatistics";
@@ -15,6 +16,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create-game" element={<CreateGame />} />
+        <Route path="/game/:gameId" element={<Game />} />
         <Route path="/players" element={<Players />} />
         <Route path="/players-statistics" element={<PlayersStatistics />} />
         <Route path="/create-player" element={<CreatePlayer />} />
