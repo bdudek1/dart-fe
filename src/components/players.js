@@ -7,11 +7,15 @@ import { Table,
           TableRow,
           Paper,
           Snackbar,
-          Alert } from '@mui/material'
+          Alert,
+          IconButton,
+          TextField } from '@mui/material'
+import SearchIcon from "@mui/icons-material/Search";
 
 const Players = () => {
   const [users, setUsers] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const playersUrl = process.env.REACT_APP_PLAYERS_URL;
 
@@ -36,10 +40,35 @@ const Players = () => {
 
   }
 
+  const filterUsers = (query, users) => {
+    if (!query) {
+      return users;
+    } else {
+      return users.filter((d) => d.name.toLowerCase().includes(query));
+    }
+  };
+
   return (
     <div className="players-table-container">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <React.Fragment>
+      <TextField
+        id="search-bar"
+        className="text"
+        onInput={(e) => {
+          setSearchQuery(e.target.value);
+        }}
+        label="Enter a player name"
+        variant="outlined"
+        placeholder="Search..."
+        size="small"
+        value={searchQuery}
+      />
+      <IconButton>
+        <SearchIcon style={{ fill: "blue" }} />
+      </IconButton>
+    </React.Fragment>
+      <TableContainer component={Paper} sx={{ height: 600, marginTop: 2}}>
+        <Table stickyHeader sx={{ minWidth: 650, height: "max-content" }}>
           <TableHead>
             <TableRow>
               <TableCell><b>Player ID</b></TableCell>
@@ -48,7 +77,7 @@ const Players = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((row) => (
+            {filterUsers(searchQuery, users).map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
