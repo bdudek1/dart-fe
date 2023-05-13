@@ -10,6 +10,7 @@ import { Table,
           Alert,
           IconButton,
           TextField } from '@mui/material'
+import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 
 const Players = () => {
@@ -86,7 +87,11 @@ const Players = () => {
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="left">
+                  <Link to={`/player/${row.name}`}>
+                    {row.name}
+                  </Link>
+                </TableCell>
                 <TableCell align="left">{row.playerType}</TableCell>
               </TableRow>
             ))}

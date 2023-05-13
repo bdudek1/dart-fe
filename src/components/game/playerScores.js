@@ -6,7 +6,7 @@ const PlayerScores = ({playerScores}) => {
         <React.Fragment>
             <Paper elevation="3" className="player-scores">
                 {Object.entries(playerScores).map(([name, score]) => (
-                    <Typography gutterBottom variant="subtitle1" align="center" color="textPrimary">
+                    <Typography key={name} gutterBottom variant="subtitle1" align="center" color="textPrimary">
                         Player <b>{name}</b> score: <b>{score}</b>
                     </Typography>
                 ))} 

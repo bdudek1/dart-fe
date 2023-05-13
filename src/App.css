@@ -89,9 +89,14 @@
   transition-duration: 200ms;
 }
 
-.players-table-container {
+.players-table-container, .player-container {
   margin-top: 5%;
   padding: 5%;
+}
+
+.player-data-container {
+  margin-top: 15px;
+  padding: 10px;
 }
 
 .shot-button-group {

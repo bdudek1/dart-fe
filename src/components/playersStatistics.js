@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import { Snackbar, Alert } from '@mui/material';
+import { Link } from "react-router-dom";
 
 const columns = [
-  { field: 'playerName', headerName: 'Player Name', width: 135, sortable: false},
+  { field: 'playerName', headerName: 'Player Name', width: 135, sortable: false, renderCell: (params) => 
+    <Link to={`/player/${params.row.playerName}`}>
+      {params.row.playerName}
+    </Link>},
   { field: 'gamesPlayed', headerName: 'Games Played', width: 135, sortingOrder: ['desc', null]},
   { field: 'shotsFired', headerName: 'Shots Fired', width: 135, sortingOrder: ['desc', null]},
   { field: 'gamesWonPercentage', headerName: 'Games Won %', width: 135, sortingOrder: ['desc', null]},
