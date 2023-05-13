@@ -7,7 +7,12 @@ import {
   Button,
   TextField,
   Snackbar,
-  Alert
+  Alert,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Backdrop
 } from "@mui/material";
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import '../App.css';
@@ -16,13 +21,16 @@ const CreateGame = () => {
   const [users, setUsers] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
 
   const navigate = useNavigate();
 
   const playerUrl = process.env.REACT_APP_PLAYER_URL;
   const gameUrl = process.env.REACT_APP_GAME_URL;
+  const validateCredentialsUrl = process.env.REACT_APP_VALIDATE_PLAYER_URL;
 
   const handleAddGuestUser = () => {
     handleEmptyUsernameError();
@@ -42,7 +50,7 @@ const CreateGame = () => {
       return;
     }
 
-    handleFindRegisteredPlayerRequest(userName);
+    handleValidateRegisteredPlayerRequest(userName, password);
     setUserName('');
   }
 
@@ -102,34 +110,33 @@ const CreateGame = () => {
     }
 }
 
-const handleFindRegisteredPlayerRequest = async (name) => {
-  const requestOptions = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  };
+const handleValidateRegisteredPlayerRequest = async (name, password) => {
+  try {
+    const response = await fetch(`${validateCredentialsUrl}?name=${name}&password=${password}`);
+    const data = await response.json();
 
-  const response = await fetch(`${playerUrl}?name=${name}`, requestOptions);
-  const data = await response.json();
-
-  switch (data.status) {
-    case 200:
-    case undefined:
-      if (data.playerType === "GUEST") {
-        setAlertMessage(`Player with name ${name} is a guest player.`);
+    switch (data.status) {
+      case 200:
+      case undefined:
+        if (data == true) {
+          addUserIfAbsent(name);
+          return;
+        } else {
+          setAlertMessage("Invalid username or password. Please try again.");
+          setShowAlert(true);
+          return;
+        }
+      default:
+        setAlertMessage("Could not validate player. Please try again.");
         setShowAlert(true);
-        return;
-      }
-
-      addUserIfAbsent(name);
       return;
-    case 404:
-      setAlertMessage(`Player with name ${name} does not exist.`);
+    }
+  } catch (error) {
+      setAlertMessage("Could not validate player. Please try again.");
       setShowAlert(true);
-      return;
-    default:
-      setAlertMessage("Could not get registered player. Please try again.");
-      setShowAlert(true);
-    return;
+  } finally {
+      setPassword('');
+      setOpenLoginDialog(false);
   }
 }
 
@@ -232,10 +239,46 @@ const convertUsersToJson = () => {
           <Button size="small" 
                     variant="outlined" 
                     className="add-player-button" 
-                    onClick={handleAddRegisteredUser}>Add Registered Player</Button>
+                    onClick={() => setOpenLoginDialog(true)}>Add Registered Player</Button>
         </div>
       </List>
       <Button className="add-player-button" onClick={handleCreateGame}>Create Game</Button>
+
+      <Backdrop open={openLoginDialog} color="rgba(0, 0, 0, 0.5)" zIndex={10} />
+
+      <Dialog open={openLoginDialog} onClose={() => setOpenLoginDialog(false)}>
+          <DialogContent>
+            <DialogContentText sx={{ paddingBottom: 1 }}>Please enter your credentials:</DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="username"
+              label="User name"
+              type="text"
+              fullWidth
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              id="password"
+              label="Password"
+              type="password"
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenLoginDialog(false)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleAddRegisteredUser} color="primary">
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
+
       <Snackbar open={showAlert} autoHideDuration={3000} onClose={() => setShowAlert(false)}>
         <Alert onClose={() => setShowAlert(false)} 
                 severity="error"
